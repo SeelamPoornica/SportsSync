@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Sports Scheduler' %></title>
+  <meta name="description" content="Sports Scheduler — Organize, join, and manage sports sessions with ease." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-brand">
+      <span class="brand-icon">⚡</span>
+      <span>SportSync</span>
+    </a>
+    <div class="nav-links">
+      <% if (user) { %>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <% if (user.role === 'admin') { %>
+          <a href="/sessions/new" class="nav-link">+ New Session</a>
+          <a href="/admin/sports" class="nav-link">Manage Sports</a>
+          <a href="/admin/reports" class="nav-link">Reports</a>
+        <% } %>
+        <a href="/profile/settings" class="nav-link">Settings</a>
+        <div class="nav-user">
+          <span class="user-avatar"><%= user.name.charAt(0).toUpperCase() %></span>
+          <span class="user-name"><%= user.name %></span>
+        </div>
+        <form action="/auth/signout" method="POST" style="display:inline;">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="btn btn-outline btn-sm">Sign Out</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/signin" class="btn btn-outline">Sign In</a>
+        <a href="/auth/signup" class="btn btn-primary">Get Started</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+<% if (success && success.length) { %>
+  <div class="alert alert-success"><span>✓</span> <%= success[0] %></div>
+<% } %>
+<% if (error && error.length) { %>
+  <div class="alert alert-error"><span>✗</span> <%= error[0] %></div>
+<% } %>

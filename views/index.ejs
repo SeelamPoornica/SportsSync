@@ -1,0 +1,52 @@
+<%- include('layout/header') %>
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🏆 Your Sports Hub</div>
+    <h1 class="hero-title">Schedule Sports,<br><span class="gradient-text">Play Together</span></h1>
+    <p class="hero-subtitle">Create and join sports sessions, find players for your team, and never miss a game again. All in one place.</p>
+    <div class="hero-actions">
+      <a href="/auth/signup" class="btn btn-primary btn-lg">Get Started Free</a>
+      <a href="/auth/signin" class="btn btn-outline btn-lg">Sign In</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>🏅</strong><span>Multiple Sports</span></div>
+      <div class="stat"><strong>👥</strong><span>Team Matching</span></div>
+      <div class="stat"><strong>📅</strong><span>Session Scheduling</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="floating-card card-1"><div class="fc-icon">⚽</div><div>Football Session<br><small>Today at 6 PM</small></div></div>
+    <div class="floating-card card-2"><div class="fc-icon">🏀</div><div>Basketball<br><small>3 slots left</small></div></div>
+    <div class="floating-card card-3"><div class="fc-icon">🎾</div><div>Tennis Match<br><small>Tomorrow</small></div></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+</section>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Everything you need to play</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🗓️</div>
+        <h3>Easy Scheduling</h3>
+        <p>Create sessions with sport, venue, date/time, and team details in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>Find Players</h3>
+        <p>Open slots let others join your game automatically until you have a full team.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Admins get insights into session activity and sport popularity over time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure & Safe</h3>
+        <p>Sessions with hashed passwords, CSRF protection, and role-based access.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('layout/footer') %>

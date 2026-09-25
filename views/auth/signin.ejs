@@ -1,0 +1,24 @@
+<%- include('../layout/header') %>
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">⚡</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your SportSync account</p>
+    </div>
+    <form action="/auth/signin" method="POST" class="auth-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Your password" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+    </form>
+    <p class="auth-footer">Don't have an account? <a href="/auth/signup">Sign Up</a></p>
+  </div>
+</div>
+<%- include('../layout/footer') %>

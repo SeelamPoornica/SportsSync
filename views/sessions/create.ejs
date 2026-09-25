@@ -1,0 +1,45 @@
+<%- include('../layout/header') %>
+<div class="container form-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Create New Session</h1>
+      <p class="page-subtitle">Set up a sports session and find players to join you.</p>
+    </div>
+    <a href="/dashboard" class="btn btn-outline">← Back</a>
+  </div>
+  <div class="form-card">
+    <form action="/sessions" method="POST" class="session-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="sportId">Sport *</label>
+          <select id="sportId" name="sportId" class="form-control" required>
+            <option value="">Select a sport</option>
+            <% sports.forEach(function(sport) { %>
+              <option value="<%= sport.id %>"><%= sport.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dateTime">Date &amp; Time *</label>
+          <input type="datetime-local" id="dateTime" name="dateTime" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="venue">Venue *</label>
+        <input type="text" id="venue" name="venue" class="form-control" placeholder="e.g. City Sports Complex, Court 3" required />
+      </div>
+      <p class="form-hint">Players can join this session themselves while open slots remain.</p>
+      <div class="form-group">
+        <label for="additionalPlayersNeeded">Additional Players Needed</label>
+        <input type="number" id="additionalPlayersNeeded" name="additionalPlayersNeeded" class="form-control" min="1" max="50" value="1" required />
+        <span class="form-hint">How many more players can join this session?</span>
+      </div>
+      <div class="form-actions">
+        <a href="/dashboard" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">Create Session</button>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer') %>

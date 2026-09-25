@@ -1,0 +1,8 @@
+<%- include('layout/header') %>
+<div class="error-page">
+  <div class="error-code">500</div>
+  <h2>Server Error</h2>
+  <p><%= typeof message !== 'undefined' ? message : 'Something went wrong on our end.' %></p>
+  <a href="/" class="btn btn-primary">Go Home</a>
+</div>
+<%- include('layout/footer') %>

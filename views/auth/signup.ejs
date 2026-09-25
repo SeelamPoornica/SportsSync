@@ -1,0 +1,39 @@
+<%- include('../layout/header') %>
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">⚡</div>
+      <h1>Create Account</h1>
+      <p>Join SportSync and start playing</p>
+    </div>
+    <form action="/auth/signup" method="POST" class="auth-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="role">Account Type</label>
+        <select id="role" name="role" class="form-control" required>
+          <option value="player">Player — join sessions</option>
+          <option value="admin">Admin — create and join sessions</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Min. 6 characters" required autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Repeat password" required autocomplete="new-password" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="/auth/signin">Sign In</a></p>
+  </div>
+</div>
+<%- include('../layout/footer') %>

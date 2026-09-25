@@ -1,0 +1,70 @@
+<%- include('../layout/header') %>
+<div class="container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Analytics Reports</h1>
+      <p class="page-subtitle">Sessions played from <strong><%= since.toLocaleDateString('en-IN') %></strong> to <strong><%= until.toLocaleDateString('en-IN') %></strong>.</p>
+    </div>
+    <form action="/admin/reports" method="GET" class="filter-form">
+      <label for="days">Last</label>
+      <select id="days" name="days" class="form-control form-control-sm" onchange="this.form.submit()">
+        <option value="7" <%= days==7?'selected':'' %>>7 days</option>
+        <option value="14" <%= days==14?'selected':'' %>>14 days</option>
+        <option value="30" <%= days==30?'selected':'' %>>30 days</option>
+        <option value="60" <%= days==60?'selected':'' %>>60 days</option>
+        <option value="90" <%= days==90?'selected':'' %>>90 days</option>
+      </select>
+    </form>
+    <form action="/admin/reports" method="GET" class="filter-form">
+      <label for="startDate">Custom range</label>
+      <input id="startDate" name="startDate" type="date" class="form-control form-control-sm" value="<%= customStartDate %>" required />
+      <label for="endDate">to</label>
+      <input id="endDate" name="endDate" type="date" class="form-control form-control-sm" value="<%= customEndDate %>" required />
+      <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+    </form>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number"><%= total %></div>
+      <div class="stat-label">Total Sessions Played</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><%= reportData.length %></div>
+      <div class="stat-label">Sports Active</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><%= reportData.length ? reportData[0].sport : '—' %></div>
+      <div class="stat-label">Most Popular Sport</div>
+    </div>
+  </div>
+
+  <% if (!reportData.length) { %>
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <p>No sessions played in this time period.</p>
+    </div>
+  <% } else { %>
+  <div class="table-card">
+    <table class="data-table">
+      <thead><tr><th>Rank</th><th>Sport</th><th>Sessions Played</th><th>Share</th><th>Popularity</th></tr></thead>
+      <tbody>
+        <% reportData.forEach(function(r, i) { %>
+        <tr>
+          <td><span class="rank-badge"><%= i+1 %></span></td>
+          <td><strong><%= r.sport %></strong></td>
+          <td><%= r.count %></td>
+          <td><%= total ? Math.round(r.count/total*100) : 0 %>%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:<%= total ? Math.round(r.count/total*100) : 0 %>%"></div>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+<%- include('../layout/footer') %>

@@ -1,0 +1,99 @@
+<%- include('../layout/header') %>
+<div class="container form-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title"><%= session.sport ? session.sport.name : 'Session' %> Session</h1>
+      <p class="page-subtitle">Session details and joined players</p>
+    </div>
+    <a href="/dashboard" class="btn btn-outline">← Back</a>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-header">
+      <div class="detail-badges">
+        <span class="sport-badge large"><%= session.sport ? session.sport.name : 'Sport' %></span>
+        <% if (session.isCancelled) { %><span class="status-badge status-cancelled">Cancelled</span>
+        <% } else if (isPast) { %><span class="status-badge status-past">Past</span>
+        <% } else { %><span class="status-badge status-active">Active</span><% } %>
+      </div>
+      <% if (session.isCancelled) { %>
+        <div class="cancel-reason cancel-banner">❌ Cancellation reason: <%= session.cancelReason %></div>
+      <% } %>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">📍 Venue</span>
+        <span class="detail-value"><%= session.venue %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">📅 Date &amp; Time</span>
+        <span class="detail-value"><%= new Date(session.dateTime).toLocaleString('en-IN', {dateStyle:'full', timeStyle:'short'}) %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">🧑 Organizer</span>
+        <span class="detail-value"><%= session.creator ? session.creator.name : 'Unknown' %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">🎫 Slots Remaining</span>
+        <span class="detail-value"><%= session.additionalPlayersNeeded %></span>
+      </div>
+    </div>
+
+    <% if ((session.teamAPlayers && session.teamAPlayers.length) || (session.teamBPlayers && session.teamBPlayers.length)) { %>
+    <div class="teams-section">
+      <div class="team-block">
+        <h3>🔵 Team A</h3>
+        <% if (session.teamAPlayers && session.teamAPlayers.length) { %>
+          <ul class="player-list">
+            <% session.teamAPlayers.forEach(function(p) { %><li class="player-tag"><%= p %></li><% }) %>
+          </ul>
+        <% } else { %><p class="text-muted">No players listed</p><% } %>
+      </div>
+      <div class="team-block">
+        <h3>🔴 Team B</h3>
+        <% if (session.teamBPlayers && session.teamBPlayers.length) { %>
+          <ul class="player-list">
+            <% session.teamBPlayers.forEach(function(p) { %><li class="player-tag"><%= p %></li><% }) %>
+          </ul>
+        <% } else { %><p class="text-muted">No players listed</p><% } %>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (session.sessionPlayers && session.sessionPlayers.length) { %>
+    <div class="joined-section">
+      <h3>✅ Joined Players (<%= session.sessionPlayers.length %>)</h3>
+      <div class="joined-list">
+        <% session.sessionPlayers.forEach(function(sp) { %>
+          <div class="joined-player">
+            <span class="player-avatar"><%= sp.user ? sp.user.name.charAt(0).toUpperCase() : '?' %></span>
+            <span><%= sp.user ? sp.user.name : 'Unknown' %></span>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="detail-actions">
+      <% if (!session.isCancelled && !isPast && session.creatorId !== user.id && !hasJoined && session.additionalPlayersNeeded > 0) { %>
+        <form action="/sessions/<%= session.id %>/join" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="btn btn-primary">Join Session</button>
+        </form>
+      <% } else if (hasJoined) { %>
+        <span class="status-badge status-joined">✅ You've joined this session</span>
+      <% } %>
+      <% if (!session.isCancelled && !isPast && user.role === 'admin') { %>
+        <button class="btn btn-danger" onclick="document.getElementById('cancelFormDetail').style.display='block'">Cancel Session</button>
+        <form id="cancelFormDetail" action="/sessions/<%= session.id %>/cancel" method="POST" style="display:none;margin-top:1rem">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <textarea name="cancelReason" class="form-control" rows="2" placeholder="Reason for cancellation..." required style="margin-bottom:0.5rem"></textarea>
+          <button type="submit" class="btn btn-danger btn-sm">Confirm Cancel</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('cancelFormDetail').style.display='none'">Never mind</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('../layout/footer') %>

@@ -1,0 +1,24 @@
+<%- include('../layout/header') %>
+<div class="container form-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title"><%= sport ? 'Edit Sport' : 'Create Sport' %></h1>
+      <p class="page-subtitle"><%= sport ? 'Update sport details below.' : 'Add a new sport category for sessions.' %></p>
+    </div>
+    <a href="/admin/sports" class="btn btn-outline">← Back</a>
+  </div>
+  <div class="form-card">
+    <form action="<%= sport ? '/admin/sports/' + sport.id + '/edit' : '/admin/sports' %>" method="POST" class="session-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-group">
+        <label for="name">Sport Name *</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Football, Basketball, Tennis" value="<%= sport ? sport.name : '' %>" required />
+      </div>
+      <div class="form-actions">
+        <a href="/admin/sports" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary"><%= sport ? 'Update Sport' : 'Create Sport' %></button>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer') %>

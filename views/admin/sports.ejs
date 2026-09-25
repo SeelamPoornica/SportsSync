@@ -1,0 +1,45 @@
+<%- include('../layout/header') %>
+<div class="container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Manage Sports</h1>
+      <p class="page-subtitle">Create and manage available sports for sessions.</p>
+    </div>
+    <a href="/admin/sports/new" class="btn btn-primary">+ Add Sport</a>
+  </div>
+  <% if (!sports.length) { %>
+    <div class="empty-state">
+      <div class="empty-icon">🏅</div>
+      <p>No sports created yet.</p>
+      <a href="/admin/sports/new" class="btn btn-primary">Create first sport</a>
+    </div>
+  <% } else { %>
+  <div class="table-card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Sport Name</th>
+          <th>Created By</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sports.forEach(function(sport, i) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><strong><%= sport.name %></strong></td>
+          <td><%= sport.creator ? sport.creator.name : 'Admin' %></td>
+          <td><%= new Date(sport.createdAt).toLocaleDateString('en-IN') %></td>
+          <td>
+            <a href="/admin/sports/<%= sport.id %>/edit" class="btn btn-sm btn-outline">Edit</a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+<%- include('../layout/footer') %>
